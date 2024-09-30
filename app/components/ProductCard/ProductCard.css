@@ -1,0 +1,64 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Zentriert die Cards */
+    gap: 1.5rem; /* Fügt Abstand zwischen den Cards hinzu */
+    margin-top: 2rem;
+  }
+  
+  .card {
+    width: 200px; /* Verkleinert die Breite der Cards */
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px; /* Abgerundete Ecken für einen moderneren Look */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-img {
+    width: 100%; /* Passt die Bilder an die Kartenbreite an */
+    height: 100px; /* Setzt eine feste Höhe für die Bilder */
+    object-fit: cover; /* Sorgt dafür, dass die Bilder die Box füllen, ohne das Seitenverhältnis zu verzerren */
+    margin-bottom: 1rem;
+    border-radius: 4px;
+  }
+  
+  .card-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-price {
+    font-size: 1rem;
+    color: #333;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  
+  
+  .card button {
+    background-color: #f0c040;
+    border: none;
+    color: #000;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .card button:hover {
+    background-color: #d4a200;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }

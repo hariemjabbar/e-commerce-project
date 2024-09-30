@@ -1,0 +1,14 @@
+.product-list-container {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 10rem; /* Großzügiger Platz links und rechts */
+  }
+  
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: center;
+  }
+
+  

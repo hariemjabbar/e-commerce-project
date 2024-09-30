@@ -1,0 +1,135 @@
+/* General Container Styles */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+  }
+  
+  .formContainer {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .formContainer:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Typography */
+  h2.title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 2rem;
+  }
+  
+  .link {
+    color: #0070f3;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .link:hover {
+    color: #005bb5;
+  }
+  
+  /* Form Styles */
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .inputGroup {
+    margin-bottom: 1.5rem;
+  }
+  
+  .label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+    display: block;
+    text-align: left;
+  }
+  
+  .input {
+    width: 80%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    margin-right: 5rem;
+  }
+  
+  .input:focus {
+    border-color: #0070f3;
+  }
+  
+  .options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .rememberMe {
+    display: flex;
+    align-items: center;
+  }
+  
+  .checkbox {
+    margin-right: 0.5rem;
+  }
+  
+  .checkboxLabel {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .forgotPassword {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    color: #0070f3;
+    text-decoration: none;
+  }
+  
+  .forgotPassword:hover {
+    color: #005bb5;
+  }
+  
+  /* Button Styles */
+  .button {
+    background-color: #0070f3;
+    color: #fff;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #005bb5;
+  }
+  
