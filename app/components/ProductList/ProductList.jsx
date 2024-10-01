@@ -23,24 +23,23 @@ const ProductList = ({ addToCart, filterCriteria }) => {
     fetchProducts();
   }, []);
 
-  // Produkte filtern, wenn sich die Filterkriterien ändern
   useEffect(() => {
-    if (filterCriteria) {
+    if (filterCriteria && Object.keys(filterCriteria).length > 0) {
       const { category, minPrice, maxPrice } = filterCriteria;
 
       const filtered = products.filter((product) => {
-        const categoryMatch = category ? product.category === category : true;
-        const minPriceMatch = minPrice ? product.price >= parseFloat(minPrice) : true;
-        const maxPriceMatch = maxPrice ? product.price <= parseFloat(maxPrice) : true;
+        const categoryMatch = category ? product.category.toLowerCase() === category.toLowerCase() : true;
+        const minPriceMatch = minPrice !== null ? product.price >= minPrice : true;
+        const maxPriceMatch = maxPrice !== null ? product.price <= maxPrice : true;
 
         return categoryMatch && minPriceMatch && maxPriceMatch;
       });
 
       setFilteredProducts(filtered);
     } else {
-      setFilteredProducts(products); // Falls keine Filterkriterien gesetzt sind, alle Produkte anzeigen
+      setFilteredProducts(products); // Zeige alle Produkte, wenn keine Filterkriterien vorhanden sind
     }
-  }, [filterCriteria, products]); // Filterung aktualisieren, wenn sich Filterkriterien oder Produkte ändern
+  }, [filterCriteria, products]);
 
   return (
     <div className='product-list-container'>

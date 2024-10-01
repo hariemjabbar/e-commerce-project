@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ShoppingCart, ChevronRight } from 'lucide-react';
+import { X, ShoppingCart, ChevronRight, Trash2 } from 'lucide-react';
 import './ShoppingCart.css';
 import { useRouter } from 'next/navigation';
 
@@ -12,9 +12,13 @@ const Warenkorb = ({ cartItems, setCartItems }) => {
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleCheckout = () => {
-    // Weiterleitung zur Checkout-Seite und Übergabe der `cartItems`-Einträge
     const query = new URLSearchParams({ items: JSON.stringify(cartItems) }).toString();
     router.push(`/checkout?${query}`);
+  };
+
+  const handleRemoveItem = (index) => {
+    const updatedCartItems = cartItems.filter((_, i) => i !== index);
+    setCartItems(updatedCartItems);
   };
 
   return (
@@ -42,11 +46,15 @@ const Warenkorb = ({ cartItems, setCartItems }) => {
             <div className="cart-items">
               {cartItems.map((item, index) => (
                 <div key={`${item.id}-${index}`} className="cart-item">
-                  <div>
+                  <img src={item.imageUrl} alt={item.name} className="item-image" />
+                  <div className="item-details">
                     <h3 className="item-name">{item.name}</h3>
                     <p className="item-quantity">Menge: {item.quantity}</p>
                   </div>
                   <p className="item-price">{(item.price * item.quantity).toFixed(2)} €</p>
+                  <button onClick={() => handleRemoveItem(index)} className="remove-button">
+                    <Trash2 className="icon" />
+                  </button>
                 </div>
               ))}
             </div>

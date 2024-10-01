@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { FaUser, FaEnvelope, FaMapMarkerAlt, FaCreditCard, FaLock, FaShoppingCart, FaTruck } from 'react-icons/fa'
+import { FaUser, FaEnvelope, FaMapMarkerAlt, FaCreditCard, FaLock, FaShoppingCart, FaTruck, FaTrash } from 'react-icons/fa'
 import styles from './checkout.module.css'
 
-function CheckoutForm({ cartItems }) {
+function CheckoutForm({ cartItems, onRemoveItem }) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [error, setError] = useState(null)
   const router = useRouter()
@@ -19,9 +19,8 @@ function CheckoutForm({ cartItems }) {
     setError(null)
 
     try {
-      // Here you would implement your checkout logic
       console.log("Checkout successful!", { ...data, cartItems })
-      await new Promise(resolve => setTimeout(resolve, 2000)) // Simulating API call
+      await new Promise(resolve => setTimeout(resolve, 2000))
       router.push("/bestellung-erfolgreich")
     } catch (error) {
       setError("Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.")
@@ -32,7 +31,7 @@ function CheckoutForm({ cartItems }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <div className={styles.formGrid}>
-        <div>
+      <div>
           <label className={styles.label} htmlFor="firstName">
             <FaUser className={styles.icon} /> Vorname
           </label>
@@ -133,11 +132,16 @@ export default function Checkout() {
     if (itemsQuery) {
       const items = JSON.parse(itemsQuery)
       setCartItems(items)
-      console.log("Cart Items:", items) // Debugging log
+      console.log("Cart Items:", items)
     }
   }, [itemsQuery])
 
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+
+  const handleRemoveItem = (index) => {
+    const updatedItems = cartItems.filter((_, i) => i !== index)
+    setCartItems(updatedItems)
+  }
 
   return (
     <div className={styles.container}>
@@ -150,7 +154,7 @@ export default function Checkout() {
             <h2 className={styles.subtitle}>
               <FaUser className={styles.subtitleIcon} /> Rechnungsadresse & Zahlung
             </h2>
-            <CheckoutForm cartItems={cartItems} />
+            <CheckoutForm cartItems={cartItems} onRemoveItem={handleRemoveItem} />
           </div>
           <div>
             <h2 className={styles.subtitle}>
@@ -163,8 +167,13 @@ export default function Checkout() {
                 <div>
                   {cartItems.map((item, index) => (
                     <div key={`${item.id}-${index}`} className={styles.orderItem}>
+                      <img src={item.imageUrl} alt={item.name} className={styles.itemImage} />
                       <span>{item.name} x {item.quantity}</span>
                       <span>{(item.price * item.quantity).toFixed(2)} €</span>
+                      <FaTrash
+                        className={styles.trashIcon}
+                        onClick={() => handleRemoveItem(index)}
+                      />
                     </div>
                   ))}
                   <div className={styles.totalPrice}>

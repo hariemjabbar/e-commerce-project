@@ -9,7 +9,7 @@ import HeroSection from './components/HeroSection/HeroSection';
 
 export default function Home() {
   const [cartItems, setCartItems] = useState([]);
-  const [filterCriteria, setFilterCriteria] = useState({});
+  const [filterCriteria, setFilterCriteria] = useState({}); // Halte es als leeres Objekt
 
   // Funktion zum Filtern der Produkte
   const handleFilter = (filters) => {
@@ -19,10 +19,10 @@ export default function Home() {
   // Funktion zum Hinzufügen von Produkten zum Warenkorb
   const addToCart = (product) => {
     setCartItems((prevCartItems) => {
-      const existingItem = prevCartItems.find(item => item._id === product._id); // Ändern Sie `id` zu `_id`
+      const existingItem = prevCartItems.find(item => item._id === product._id);
       if (existingItem) {
         return prevCartItems.map(item =>
-          item._id === product._id // Ändern Sie `id` zu `_id`
+          item._id === product._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
@@ -44,11 +44,11 @@ export default function Home() {
 
   return (
     <div className="main-container">
-      <HeroSection/>
+      <HeroSection />
       <FilterBar onFilter={handleFilter} />
       <div className="content">
-      <Warenkorb cartItems={cartItems} setCartItems={setCartItems} addToCart={addToCart} />
-      <ProductList addToCart={addToCart} filterCriteria={null} /> {/* Hier kannst du deine Filterkriterien anpassen */}
+        <Warenkorb cartItems={cartItems} setCartItems={setCartItems} addToCart={addToCart} />
+        <ProductList addToCart={addToCart} filterCriteria={filterCriteria} /> {/* Filterkriterien übergeben */}
       </div>
     </div>
   );

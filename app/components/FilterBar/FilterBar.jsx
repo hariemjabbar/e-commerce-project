@@ -7,11 +7,14 @@ const FilterBar = ({ onFilter }) => {
   const [maxPrice, setMaxPrice] = useState('');
 
   const handleFilter = () => {
-    onFilter({
-      category: selectedCategory,
-      minPrice: minPrice,
-      maxPrice: maxPrice,
-    });
+    const criteria = {
+      category: selectedCategory.trim() || null,
+      minPrice: minPrice ? parseFloat(minPrice) : null,
+      maxPrice: maxPrice ? parseFloat(maxPrice) : null,
+    };
+    
+    console.log("Filter Button Clicked:", criteria); // Debugging
+    onFilter(criteria);
   };
 
   return (
