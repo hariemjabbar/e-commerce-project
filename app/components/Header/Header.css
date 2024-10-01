@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Handjet:wght@600&display=swap');
+
+
+@import url('https://fonts.googleapis.com/css2?family=Handjet:wght@600&family=Lato:wght@400;700&display=swap');
 
 .header {
     background-color: #000;
@@ -10,78 +12,152 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-  }
-  
-  .header-left {
+    font-family: "Lato", sans-serif;
+}
+
+.header-left {
     display: flex;
     align-items: center;
-  }
-  .header-left .icon {
-    margin-right: 10px; /* Platz zwischen dem Icon und dem Text */
-    font-size: 2rem; /* Icon-Größe anpassen */
-    color: #fff; /* Icon-Farbe anpassen */
-  }
-  .header-left h1 {
+}
+
+.header-left .icon {
+    margin-right: 10px;
+    font-size: 2rem;
+    color: #fff;
+}
+
+.header-left h1 {
     color: #ddd;
     font-family: "Handjet", sans-serif;
     font-weight: 800;
-  }
-  
-  .shop-name {
-    color: #fff;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .nav {
+}
+
+.nav {
     display: flex;
     justify-content: center;
     flex-grow: 1;
-  }
-  
-  .nav-links {
+}
+
+.nav-links {
     display: flex;
     gap: 2rem;
-  }
-  
-  .nav-links li {
+}
+
+.nav-links li {
     list-style: none;
-  }
-  
-  .nav-links a {
+}
+
+.nav-links a {
     color: #fff;
     text-decoration: none;
     font-size: 1.1rem;
     font-weight: bold;
-  }
-  
-  .nav-links a:hover {
+}
+
+.nav-links a:hover {
     color: #f0c040;
-  }
-  
-  .header-right {
+}
+
+.header-right {
     display: flex;
     align-items: center;
     position: relative;
-  }
-  
-  .search-icon {
+}
+
+.search-icon {
     background: none;
     border: none;
     color: #fff;
     font-size: 1.5rem;
     cursor: pointer;
     margin-left: 1rem;
-  }
-  
-  .search-bar {
+    transition: color 0.3s;
+}
+
+.search-icon:hover {
+    color: #f0c040;
+}
+
+.search-bar-container {
     position: absolute;
     top: 60px;
     right: 0;
-    width: 250px;
+    background-color: #fff;
     padding: 0.5rem;
     border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    outline: none;
+    font-size: 1rem;
     border-radius: 4px;
-    margin-top: 0.5rem;
-  }
-  
+    background-color: #f5f5f5;
+}
+
+.search-bar:focus {
+    background-color: #fff;
+    box-shadow: 0px 0px 4px #f0c040;
+}
+
+.search-results {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-result-item:hover {
+  background-color: #f0f0f0; /* Leichte Hintergrundfarbe beim Hover */
+}
+
+.search-result-item img {
+  width: 50px; /* Bildgröße anpassen */
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.search-result-item span {
+  color: black; /* Textfarbe auf Schwarz setzen */
+  text-decoration: none; /* Unterstreichen entfernen */
+}
+
+.button-modern {
+    background-color: #f0c040;
+    border: none;
+    color: #000;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: "Lato", sans-serif;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.button-modern:hover {
+    background-color: #d4a200;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
