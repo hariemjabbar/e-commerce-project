@@ -7,7 +7,7 @@ const HeroSection = () => {
       <div className="hero-content">
         <h1 className="hero-title">Willkommen zu Retroshop</h1>
         <p className="hero-text">
-          Entdecke die besten Retro-Artikel in unserem Shop. Hier findest du alles, was du brauchst, um in die Vergangenheit zu reisen – von klassischen Spielen bis hin zu Vintage-Mode.
+        Entdecke die besten Retro-Gaming-Artikel in unserem Shop! Hier findest du alles, was das Gamer-Herz begehrt – von klassischen Spielen über alte Konsolen bis hin zu nostalgischem Zubehör. Mach dich bereit, in die Vergangenheit zu reisen und deine Lieblingsspiele neu zu erleben!
         </p>
       </div>
       <div className="hero-image-container">

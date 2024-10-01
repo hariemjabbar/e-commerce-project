@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { User, Package, ShoppingCart, LogOut } from 'lucide-react';
 import { signOut } from 'next-auth/react';
-import './AccountManagment.css';
+import './AccountManagment.css'
+import MyPurchases from '../MyPurchases/MyPurchases';
 
 const PersonalInformation = ({ title, userData, onUpdate }) => {
   const [formData, setFormData] = useState({ fullName: '', email: '', phone: '' });
@@ -123,9 +124,11 @@ export default function AccountDashboard() {
         <div className="content">
           {activeTab === 'personal' && <PersonalInformation title="Personal Information" userData={userData} onUpdate={handleUpdate} />}
           {activeTab === 'purchases' && <MyPurchases title="My Purchases" />}
-          {activeTab === 'orders' && <MyOrders title="My Orders" />}
+          {activeTab === 'orders' && <MyOrders title="My Orders" />} {/* Diese Komponente müssen Sie separat implementieren */}
         </div>
       </div>
     </div>
   );
 }
+
+

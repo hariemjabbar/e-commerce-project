@@ -1,37 +1,37 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { FaUser, FaEnvelope, FaMapMarkerAlt, FaCreditCard, FaLock, FaShoppingCart, FaTruck, FaTrash } from 'react-icons/fa'
-import styles from './checkout.module.css'
+import { useState, useEffect } from "react"; // import useEffect hier hinzufügen
+import { useRouter, useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { FaUser, FaEnvelope, FaMapMarkerAlt, FaLock, FaShoppingCart, FaTrash, FaTruck } from "react-icons/fa";
+import styles from "./checkout.module.css";
 
 function CheckoutForm({ cartItems, onRemoveItem }) {
-  const [isProcessing, setIsProcessing] = useState(false)
-  const [error, setError] = useState(null)
-  const router = useRouter()
-  const { register, handleSubmit, formState: { errors } } = useForm()
-
-  const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState(null);
+  const router = useRouter();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const onSubmit = async (data) => {
-    setIsProcessing(true)
-    setError(null)
+    setIsProcessing(true);
+    setError(null);
 
+    // Simulate processing payment
     try {
-      console.log("Checkout successful!", { ...data, cartItems })
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      router.push("/bestellung-erfolgreich")
+      console.log("Checkout successful!", { ...data, cartItems });
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      router.push("/bestellung-erfolgreich");
     } catch (error) {
-      setError("Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.")
-      setIsProcessing(false)
+      setError("Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.");
+      setIsProcessing(false);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <div className={styles.formGrid}>
-      <div>
+        <div>
           <label className={styles.label} htmlFor="firstName">
             <FaUser className={styles.icon} /> Vorname
           </label>
@@ -57,7 +57,7 @@ function CheckoutForm({ cartItems, onRemoveItem }) {
           <FaEnvelope className={styles.icon} /> E-Mail
         </label>
         <input
-          {...register("email", { 
+          {...register("email", {
             required: "E-Mail ist erforderlich",
             pattern: {
               value: /\S+@\S+\.\S+/,
@@ -111,37 +111,61 @@ function CheckoutForm({ cartItems, onRemoveItem }) {
         />
         {errors.country && <p className={styles.errorText}>{errors.country.message}</p>}
       </div>
-      {error && <div className={styles.errorMessage}>{error}</div>}
+
+      {/* Manuelle Kreditkartenfelder */}
+      <div>
+        <label className={styles.label}>Kreditkarteninformationen</label>
+        <div className={styles.cardInput}>
+          <input
+            {...register("cardNumber", { required: "Kartenummer ist erforderlich" })}
+            className={styles.input}
+            placeholder="Kartenummer"
+          />
+          <input
+            {...register("expiryDate", { required: "Ablaufdatum ist erforderlich" })}
+            className={styles.input}
+            placeholder="MM/YY"
+          />
+          <input
+            {...register("cvc", { required: "CVC ist erforderlich" })}
+            className={styles.input}
+            placeholder="CVC"
+          />
+        </div>
+      </div>
+
+      {error && <p className={styles.errorText}>{error}</p>}
+
       <button
         type="submit"
         disabled={isProcessing}
-        className={`${styles.button} ${isProcessing ? styles.buttonDisabled : ''}`}
+        className={`${styles.button} ${isProcessing ? styles.buttonDisabled : ""}`}
       >
         {isProcessing ? "Wird bearbeitet..." : `Jetzt kaufen (${totalPrice.toFixed(2)} €)`}
       </button>
     </form>
-  )
+  );
 }
 
 export default function Checkout() {
-  const searchParams = useSearchParams()
-  const itemsQuery = searchParams.get("items")
-  const [cartItems, setCartItems] = useState([])
+  const searchParams = useSearchParams();
+  const itemsQuery = searchParams.get("items");
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     if (itemsQuery) {
-      const items = JSON.parse(itemsQuery)
-      setCartItems(items)
-      console.log("Cart Items:", items)
+      const items = JSON.parse(itemsQuery);
+      setCartItems(items);
+      console.log("Cart Items:", items);
     }
-  }, [itemsQuery])
+  }, [itemsQuery]);
 
-  const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const handleRemoveItem = (index) => {
-    const updatedItems = cartItems.filter((_, i) => i !== index)
-    setCartItems(updatedItems)
-  }
+    const updatedItems = cartItems.filter((_, i) => i !== index);
+    setCartItems(updatedItems);
+  };
 
   return (
     <div className={styles.container}>
@@ -168,7 +192,9 @@ export default function Checkout() {
                   {cartItems.map((item, index) => (
                     <div key={`${item.id}-${index}`} className={styles.orderItem}>
                       <img src={item.imageUrl} alt={item.name} className={styles.itemImage} />
-                      <span>{item.name} x {item.quantity}</span>
+                      <span>
+                        {item.name} x {item.quantity}
+                      </span>
                       <span>{(item.price * item.quantity).toFixed(2)} €</span>
                       <FaTrash
                         className={styles.trashIcon}
@@ -199,5 +225,5 @@ export default function Checkout() {
         </div>
       </div>
     </div>
-  )
+  );
 }
