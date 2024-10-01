@@ -1,6 +1,9 @@
 /* General Styling */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
 .relative {
   position: relative;
+  font-family: "Lato", sans-serif;
 }
 
 .cart-button {
@@ -130,7 +133,7 @@
 
 .item-price {
   font-weight: 600; /* Semi-bold */
-  color: #2563eb; /* Blue for emphasis */
+  color: black; /* Blue for emphasis */
 }
 
 .remove-button {
