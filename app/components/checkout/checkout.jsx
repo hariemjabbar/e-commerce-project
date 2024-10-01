@@ -1,167 +1,194 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "react-toastify";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import { CardElement } from "@stripe/react-stripe-js";
-import "./checkout.css"; // Importiere die kombinierte CSS-Datei
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { FaUser, FaEnvelope, FaMapMarkerAlt, FaCreditCard, FaLock, FaShoppingCart, FaTruck } from 'react-icons/fa'
+import styles from './checkout.module.css'
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+function CheckoutForm({ cartItems }) {
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [error, setError] = useState(null)
+  const router = useRouter()
+  const { register, handleSubmit, formState: { errors } } = useForm()
 
-function StripeCheckoutForm({ cartItems }) {
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [error, setError] = useState(null);
-  const router = useRouter();
+  const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
-  const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-  const handleSubmit = async (event, stripe, elements) => {
-    event.preventDefault();
-    setIsProcessing(true);
-    setError(null);
-
-    if (!stripe || !elements) {
-      setError("Stripe wurde nicht geladen.");
-      setIsProcessing(false);
-      return;
-    }
-
-    const cardElement = elements.getElement(CardElement);
-
-    if (!cardElement) {
-      setError("Kreditkarteninformationen konnten nicht geladen werden.");
-      setIsProcessing(false);
-      return;
-    }
+  const onSubmit = async (data) => {
+    setIsProcessing(true)
+    setError(null)
 
     try {
-      const response = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: cartItems }),
-      });
-
-      const { id: sessionId, error: backendError } = await response.json();
-
-      if (backendError) {
-        setError(backendError);
-        setIsProcessing(false);
-        return;
-      }
-
-      const { error: stripeError } = await stripe.redirectToCheckout({ sessionId });
-
-      if (stripeError) {
-        setError(stripeError.message || "Ein Fehler ist aufgetreten.");
-        setIsProcessing(false);
-      } else {
-        toast.success("Bestellung erfolgreich! Vielen Dank für Ihren Einkauf!");
-        router.push("/bestellung-erfolgreich");
-      }
+      // Here you would implement your checkout logic
+      console.log("Checkout successful!", { ...data, cartItems })
+      await new Promise(resolve => setTimeout(resolve, 2000)) // Simulating API call
+      router.push("/bestellung-erfolgreich")
     } catch (error) {
-      setError("Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.");
-      setIsProcessing(false);
+      setError("Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.")
+      setIsProcessing(false)
     }
-  };
+  }
 
   return (
-    <Elements stripe={stripePromise}>
-      {({ stripe, elements }) => (
-        <form onSubmit={(e) => handleSubmit(e, stripe, elements)} className="form-section">
-          <div className="grid-two-columns">
-            <div className="form-group">
-              <label className="label" htmlFor="firstName">Vorname</label>
-              <input className="input" id="firstName" required />
-            </div>
-            <div className="form-group">
-              <label className="label" htmlFor="lastName">Nachname</label>
-              <input className="input" id="lastName" required />
-            </div>
-          </div>
-          <div className="form-group">
-            <label className="label" htmlFor="email">E-Mail</label>
-            <input className="input" id="email" type="email" required />
-          </div>
-          <div className="form-group">
-            <label className="label" htmlFor="address">Adresse</label>
-            <input className="input" id="address" required />
-          </div>
-          <div className="grid-two-columns">
-            <div className="form-group">
-              <label className="label" htmlFor="zip">PLZ</label>
-              <input className="input" id="zip" required />
-            </div>
-            <div className="form-group">
-              <label className="label" htmlFor="city">Stadt</label>
-              <input className="input" id="city" required />
-            </div>
-          </div>
-          <div className="form-group">
-            <label className="label" htmlFor="country">Land</label>
-            <input className="input" id="country" required />
-          </div>
-          <div className="form-group card-element-wrapper">
-            <label className="label" htmlFor="card-element">Kreditkarte</label>
-            <div>
-              <CardElement id="card-element" />
-            </div>
-          </div>
-          {error && <div className="error-message">{error}</div>}
-          <button className="button" type="submit" disabled={isProcessing}>
-            {isProcessing ? "Wird bearbeitet..." : `Jetzt kaufen (${totalPrice.toFixed(2)} €)`}
-          </button>
-        </form>
-      )}
-    </Elements>
-  );
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <div className={styles.formGrid}>
+        <div>
+          <label className={styles.label} htmlFor="firstName">
+            <FaUser className={styles.icon} /> Vorname
+          </label>
+          <input
+            {...register("firstName", { required: "Vorname ist erforderlich" })}
+            className={styles.input}
+          />
+          {errors.firstName && <p className={styles.errorText}>{errors.firstName.message}</p>}
+        </div>
+        <div>
+          <label className={styles.label} htmlFor="lastName">
+            <FaUser className={styles.icon} /> Nachname
+          </label>
+          <input
+            {...register("lastName", { required: "Nachname ist erforderlich" })}
+            className={styles.input}
+          />
+          {errors.lastName && <p className={styles.errorText}>{errors.lastName.message}</p>}
+        </div>
+      </div>
+      <div>
+        <label className={styles.label} htmlFor="email">
+          <FaEnvelope className={styles.icon} /> E-Mail
+        </label>
+        <input
+          {...register("email", { 
+            required: "E-Mail ist erforderlich",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Ungültige E-Mail-Adresse",
+            },
+          })}
+          type="email"
+          className={styles.input}
+        />
+        {errors.email && <p className={styles.errorText}>{errors.email.message}</p>}
+      </div>
+      <div>
+        <label className={styles.label} htmlFor="address">
+          <FaMapMarkerAlt className={styles.icon} /> Adresse
+        </label>
+        <input
+          {...register("address", { required: "Adresse ist erforderlich" })}
+          className={styles.input}
+        />
+        {errors.address && <p className={styles.errorText}>{errors.address.message}</p>}
+      </div>
+      <div className={styles.formGrid}>
+        <div>
+          <label className={styles.label} htmlFor="zip">
+            <FaMapMarkerAlt className={styles.icon} /> PLZ
+          </label>
+          <input
+            {...register("zip", { required: "PLZ ist erforderlich" })}
+            className={styles.input}
+          />
+          {errors.zip && <p className={styles.errorText}>{errors.zip.message}</p>}
+        </div>
+        <div>
+          <label className={styles.label} htmlFor="city">
+            <FaMapMarkerAlt className={styles.icon} /> Stadt
+          </label>
+          <input
+            {...register("city", { required: "Stadt ist erforderlich" })}
+            className={styles.input}
+          />
+          {errors.city && <p className={styles.errorText}>{errors.city.message}</p>}
+        </div>
+      </div>
+      <div>
+        <label className={styles.label} htmlFor="country">
+          <FaMapMarkerAlt className={styles.icon} /> Land
+        </label>
+        <input
+          {...register("country", { required: "Land ist erforderlich" })}
+          className={styles.input}
+        />
+        {errors.country && <p className={styles.errorText}>{errors.country.message}</p>}
+      </div>
+      {error && <div className={styles.errorMessage}>{error}</div>}
+      <button
+        type="submit"
+        disabled={isProcessing}
+        className={`${styles.button} ${isProcessing ? styles.buttonDisabled : ''}`}
+      >
+        {isProcessing ? "Wird bearbeitet..." : `Jetzt kaufen (${totalPrice.toFixed(2)} €)`}
+      </button>
+    </form>
+  )
 }
 
 export default function Checkout() {
-  const searchParams = useSearchParams();
-  const itemsQuery = searchParams.get("items");
-  const [cartItems, setCartItems] = useState([]);
+  const searchParams = useSearchParams()
+  const itemsQuery = searchParams.get("items")
+  const [cartItems, setCartItems] = useState([])
 
   useEffect(() => {
     if (itemsQuery) {
-      const items = JSON.parse(itemsQuery);
-      setCartItems(items);
-      console.log("Cart Items:", items); // Debugging-Log
+      const items = JSON.parse(itemsQuery)
+      setCartItems(items)
+      console.log("Cart Items:", items) // Debugging log
     }
-  }, [itemsQuery]);
+  }, [itemsQuery])
 
-  // Berechne die Gesamtsumme hier
-  const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
   return (
-    <div className="container">
-      <h1 className="title">Zur Kasse</h1>
-      <div className="grid-two-columns">
-        <div>
-          <h2 className="subtitle">Rechnungsadresse & Zahlung</h2>
-          <StripeCheckoutForm cartItems={cartItems} />
-        </div>
-        <div>
-          <h2 className="subtitle">Ihre Bestellung</h2>
-          <div className="order-summary">
-            {cartItems.length === 0 ? (
-              <p>Ihr Warenkorb ist leer.</p>
-            ) : (
-              cartItems.map((item, index) => (
-                <div key={`${item.id}-${index}`} className="order-item">
-                  <span>{item.name} x {item.quantity}</span>
-                  <span>{(item.price * item.quantity).toFixed(2)} €</span>
+    <div className={styles.container}>
+      <h1 className={styles.title}>
+        <FaShoppingCart className={styles.titleIcon} /> Zur Kasse
+      </h1>
+      <div className={styles.checkoutContainer}>
+        <div className={styles.checkoutGrid}>
+          <div>
+            <h2 className={styles.subtitle}>
+              <FaUser className={styles.subtitleIcon} /> Rechnungsadresse & Zahlung
+            </h2>
+            <CheckoutForm cartItems={cartItems} />
+          </div>
+          <div>
+            <h2 className={styles.subtitle}>
+              <FaShoppingCart className={styles.subtitleIcon} /> Ihre Bestellung
+            </h2>
+            <div className={styles.orderSummary}>
+              {cartItems.length === 0 ? (
+                <p className={styles.emptyCart}>Ihr Warenkorb ist leer.</p>
+              ) : (
+                <div>
+                  {cartItems.map((item, index) => (
+                    <div key={`${item.id}-${index}`} className={styles.orderItem}>
+                      <span>{item.name} x {item.quantity}</span>
+                      <span>{(item.price * item.quantity).toFixed(2)} €</span>
+                    </div>
+                  ))}
+                  <div className={styles.totalPrice}>
+                    <span>Gesamtsumme</span>
+                    <span>{totalPrice.toFixed(2)} €</span>
+                  </div>
                 </div>
-              ))
-            )}
-            <div className="total">
-              <span>Gesamtsumme</span>
-              <span>{totalPrice.toFixed(2)} €</span>
+              )}
+            </div>
+            <div className={styles.infoBox}>
+              <h3 className={styles.infoTitle}>
+                <FaLock className={styles.infoIcon} /> Sichere Bezahlung
+              </h3>
+              <p>Ihre Zahlungsinformationen werden sicher verschlüsselt übertragen.</p>
+            </div>
+            <div className={styles.infoBox}>
+              <h3 className={styles.infoTitle}>
+                <FaTruck className={styles.infoIcon} /> Versand
+              </h3>
+              <p>Kostenloser Versand für Bestellungen über 50 €. Lieferung innerhalb von 3-5 Werktagen.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
