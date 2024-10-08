@@ -1,6 +1,6 @@
-import { authOptions } from '../auth/[...nextauth]/route';// Stellen Sie sicher, dass dieser Pfad korrekt ist
+import { authOptions } from '../auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth';
-import { connectToDatabase } from '@/lib/db'; // Stellen Sie sicher, dass der Pfad korrekt ist
+import { connectToDatabase } from '@/lib/db'; 
 
 export async function GET(req) {
   const session = await getServerSession(authOptions);

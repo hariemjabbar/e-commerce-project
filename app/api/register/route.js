@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 
 export async function POST(req) {
   try {
-    const { email, password, fullName } = await req.json(); // Fügen Sie fullName hinzu
+    const { email, password, fullName } = await req.json(); 
     const { db } = await connectToDatabase();
 
     // Überprüfen, ob der Benutzer bereits existiert
@@ -17,7 +17,7 @@ export async function POST(req) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Neuen Benutzer einfügen
-    await db.collection('users').insertOne({ email, password: hashedPassword, fullName }); // Speichern Sie den Namen hier
+    await db.collection('users').insertOne({ email, password: hashedPassword, fullName }); 
 
     return new Response(JSON.stringify({ success: true }), { status: 201 }); // Ändern Sie den Statuscode zu 201 für erfolgreiches Erstellen
   } catch (error) {

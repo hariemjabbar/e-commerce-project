@@ -6,7 +6,7 @@ import './register.css';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
-    name: '',           // Vollständiger Name hinzugefügt
+    name: '',          
     email: '',
     password: '',
     passwordConfirm: '',
@@ -35,7 +35,7 @@ export default function RegisterPage() {
         body: JSON.stringify({
           email: formData.email,
           password: formData.password,
-          fullName: formData.name,  // Vollständiger Name an die API senden
+          fullName: formData.name,  
         }),
       });
 
@@ -45,8 +45,7 @@ export default function RegisterPage() {
         setError(result.error || 'Registrierung fehlgeschlagen');
       } else {
         alert('Registrierung erfolgreich!');
-        // Hier könnten Sie die Benutzer zur Anmeldeseite weiterleiten
-        // window.location.href = '/login';  // Uncomment this line for redirection
+        
       }
     } catch (error) {
       console.error('Registrierungsfehler:', error);

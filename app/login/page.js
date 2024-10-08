@@ -29,7 +29,6 @@ export default function LoginPage() {
     } else {
       setNotification('Anmeldung erfolgreich!'); // Erfolgsbenachrichtigung setzen
       setError(null); // Fehler zurücksetzen
-      // Weiterleitung zur Startseite oder einer anderen geschützten Seite
       window.location.href = '/';
     }
   };
@@ -93,8 +92,8 @@ export default function LoginPage() {
               Passwort vergessen?
             </a>
           </div>
-          {error && <p className="error">{error}</p>} {/* Fehlerbenachrichtigung */}
-          {notification && <p className="notification">{notification}</p>} {/* Erfolgsbenachrichtigung */}
+          {error && <p className="error">{error}</p>} {}
+          {notification && <p className="notification">{notification}</p>} {}
           <button type="submit" className="button">
             Anmelden
           </button>

@@ -1,8 +1,7 @@
 // app/api/purchases/route.js
-import { authOptions } from '../auth/[...nextauth]/route'; // Stellen Sie sicher, dass dieser Pfad korrekt ist
+import { authOptions } from '../auth/[...nextauth]/route'; 
 import { getServerSession } from 'next-auth';
-import { connectToDatabase } from '@/lib/db'; // Stellen Sie sicher, dass dieser Pfad korrekt ist
-
+import { connectToDatabase } from '@/lib/db'; 
 export async function POST(req) {
   const session = await getServerSession(authOptions);
 
@@ -23,7 +22,6 @@ export async function POST(req) {
     return new Response(JSON.stringify({ message: 'User not found' }), { status: 404 });
   }
 
-  // Fügen Sie den Kauf in die purchases-Kollektion ein
   const purchase = {
     userId: user._id,
     productName,

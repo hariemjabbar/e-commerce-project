@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { connectToDatabase } from '@/lib/db'; // Achten Sie darauf, dass der Pfad korrekt ist
+import { connectToDatabase } from '@/lib/db'; 
 import bcrypt from 'bcryptjs';
 
 export const authOptions = {
@@ -43,6 +43,6 @@ export const authOptions = {
   },
 };
 
-// Benannter Export für GET- und POST-Anfragen
+
 export const GET = NextAuth(authOptions);
 export const POST = NextAuth(authOptions);
